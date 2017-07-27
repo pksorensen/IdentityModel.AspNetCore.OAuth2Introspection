@@ -5,18 +5,22 @@ using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using Microsoft.AspNetCore.Authentication;
+using IdentityModel.AspNetCore.OAuth2Introspection.Infrastructure;
+using IdentityModel.Client;
+using System.Collections.Concurrent;
 
 namespace Microsoft.AspNetCore.Builder
 {
     /// <summary>
     /// Options class for the OAuth 2.0 introspection endpoint authentication middleware
     /// </summary>
-    public class OAuth2IntrospectionOptions : AuthenticationOptions
+    public class OAuth2IntrospectionOptions : AuthenticationSchemeOptions
     {
         public OAuth2IntrospectionOptions()
         {
-            AuthenticationScheme = "Bearer";
-            AutomaticAuthenticate = true;
+        //    AuthenticationScheme = "Bearer";
+        //    AutomaticAuthenticate = true;
         }
 
         /// <summary>
@@ -95,5 +99,7 @@ namespace Microsoft.AspNetCore.Builder
         /// Specifies the method how to retrieve the token from the HTTP request
         /// </summary>
         public Func<HttpRequest, string> TokenRetriever { get; set; } = TokenRetrieval.FromAuthorizationHeader();
+        public AsyncLazy<IntrospectionClient> IntrospectionClient { get; internal set; }
+        public ConcurrentDictionary<string, AsyncLazy<IntrospectionResponse>> LazyIntrospections { get; internal set; }
     }
 }
