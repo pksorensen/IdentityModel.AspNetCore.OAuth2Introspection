@@ -26,12 +26,10 @@ namespace Tests.Util
             return new TestServer(new WebHostBuilder()             
                 .Configure(app =>
                 {
-                  //  app.UseOAuth2IntrospectionAuthentication(options);
+                    app.UseAuthentication();
 
                     app.Use(async (context, next) =>
                     {
-                        var result = await context.AuthenticateAsync();
-                        context.User = result.Principal;
                         var user = context.User;
 
                         if (user.Identity.IsAuthenticated)
