@@ -65,9 +65,7 @@ namespace Tests.Util
                         o.DefaultAuthenticateScheme = OAuth2IntrospectionDefaults.AuthenticationScheme;
                         o.DefaultChallengeScheme = OAuth2IntrospectionDefaults.AuthenticationScheme;
                         o.DefaultSignInScheme = OAuth2IntrospectionDefaults.AuthenticationScheme;
-                    });
-
-                    services.AddOAuth2IntrospectionAuthentication(options);
+                    }).AddOAuth2IntrospectionAuthentication(options);
 
                 }));
         }
