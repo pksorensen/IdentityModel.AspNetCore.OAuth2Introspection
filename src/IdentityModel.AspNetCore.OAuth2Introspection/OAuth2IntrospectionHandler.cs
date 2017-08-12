@@ -24,7 +24,7 @@ namespace IdentityModel.AspNetCore.OAuth2Introspection
         private readonly ILogger<OAuth2IntrospectionHandler> _logger;
    
         public OAuth2IntrospectionHandler(
-            IOptionsSnapshot<OAuth2IntrospectionOptions> options,
+            IOptionsMonitor<OAuth2IntrospectionOptions> options,
             UrlEncoder urlEncoder,
             ISystemClock clock,
             ILoggerFactory loggerFactory,
@@ -41,13 +41,13 @@ namespace IdentityModel.AspNetCore.OAuth2Introspection
            
             if (token.IsMissing())
             {
-                return AuthenticateResult.None();
+                return AuthenticateResult.NoResult();
             }
 
             if (token.Contains('.') && Options.SkipTokensWithDots)
             {
                 _logger.LogTrace("Token contains a dot - skipped because SkipTokensWithDots is set.");
-                return AuthenticateResult.None();
+                return AuthenticateResult.NoResult();
             }
 
             if (Options.EnableCaching)
